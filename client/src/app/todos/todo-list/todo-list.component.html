@@ -1,0 +1,37 @@
+<!-- Loader -->
+<!-- <div *ngIf="isLoading$ | async" class="loader"> -->
+  <div *ngIf="loading" class="loader">
+</div>
+
+<!-- Form and Todos List - visible only when loading is false -->
+<!-- <div *ngIf="!(isLoading$ | async)"> -->
+
+  <div *ngIf="!loading">
+  
+  <!-- Form Container -->
+  <div class="form-container">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <label for="inputField">Enter Task: </label>
+      <input id="inputField" type="text" formControlName="inputField" />
+
+      <!-- Show validation message if input is empty and form is submitted -->
+      <div *ngIf="myForm.controls['inputField'].invalid && myForm.controls['inputField'].touched">
+        <small style="color: red;">This field is required.</small>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Todos List -->
+  <div *ngIf="(todos$ | async) as todos">
+    <ul>
+      <li *ngFor="let todo of todos">
+        {{ todo.title }} - {{ todo.completed ? 'Completed' : 'Pending' }}   
+        <button (click)="Delete(todo.id)">Delete</button>
+        <button (click)="onEdit(todo)">Update</button>
+      </li>
+    </ul>
+  </div>
+
+</div>
